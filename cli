@@ -1,0 +1,39 @@
+#!/usr/bin/python
+import sys
+
+import json
+import requests
+
+MANAGEMENT_API = "http://localhost:8001"
+API = "http://localhost:8000"
+
+def services():
+    resp = requests.get(MANAGEMENT_API)
+    print "apis           "
+    print "---------------"
+    for api in resp.json():
+        print api["name"]
+
+def describeService(service):
+    url = "%s/%s/commands" % (API, service)
+    url = "http://localhost:3000/commands"
+    print url
+    resp = requests.get(url)
+    print "command           parameters      "
+    print "----------------- -----------------"
+    for command in resp.json():
+        params = ""
+        if command["parameters"]:
+            param = ",".join(command["parameters"])
+        print "%s |%s" % (command["name"], params)
+
+def main():
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "describe":
+            describeService("netapi")
+        if sys.argv[1] == "services":
+            services()
+    pass
+
+if __name__ == "__main__":
+    main()
