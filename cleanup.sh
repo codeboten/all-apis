@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker rm -f datapi
+docker rm -f datapi netapi
